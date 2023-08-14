@@ -27,11 +27,13 @@ class UsbDetector {
     fun usbDevice(it: USBStorageEvent){
         if(it.eventType == DeviceEventType.CONNECTED){
 //            println("Here")
-            listDrive.add(UsbDrive(Name = it.storageDevice.deviceName, Directory = it.storageDevice.device))
+            listDrive.add(UsbDrive(Name = it.storageDevice.deviceName, Directory = it.storageDevice.rootDirectory.toString()))
             println(it.eventType)
+            println(it.storageDevice.rootDirectory)
+            println(it.storageDevice.device)
         }
         else{
-            listDrive.remove(UsbDrive(Name = it.storageDevice.deviceName, Directory = it.storageDevice.device))
+            listDrive.remove(UsbDrive(Name = it.storageDevice.deviceName, Directory = it.storageDevice.rootDirectory.toString()))
             println(it.eventType)
         }
 
