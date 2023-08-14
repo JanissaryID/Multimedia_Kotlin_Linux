@@ -41,23 +41,29 @@ class UsbDetector {
 
     private fun GetUsbDrive(){
         val driveDetector = USBDeviceDetectorManager()
-        driveDetector.removableDevices
-
-        driveDetector.addDriveListener {
-            usbDevice(it = it)
-//  dont forget close object
+//        driveDetector.removableDevices
+//
+//        println(driveDetector.removableDevices)
+        if(listDrive.toList().isEmpty()){
+            driveDetector.addDriveListener {
+                usbDevice(it = it)
+//              dont forget close object
+            }
         }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
     fun asyncCheckUsb(){
         GlobalScope.launch(Dispatchers.IO) {
-            try {
-                GetUsbDrive()
-                Thread.sleep(1000)
-            }
-            catch (e: Exception){
-                println("Error async : $e")
+            while (true){
+                try {
+                    GetUsbDrive()
+//                    println("Async Get Usb Drive")
+                    Thread.sleep(1000)
+                }
+                catch (e: Exception){
+                    println("Error async : $e")
+                }
             }
         }
     }

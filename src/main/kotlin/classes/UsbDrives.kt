@@ -49,6 +49,7 @@ class UsbDrives {
 
     fun GetValueItem(menu: Int){
         mediaPlayer.controls().stop()
+        audioPlayer.mediaPlayer().controls().stop()
         when(menu){
             0 -> {
                 selectedItemList.value = listFileImage[selectedItem]
