@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import classes.MenuNavigation
 import classes.UsbDrives
@@ -23,7 +24,16 @@ fun ImageLazyColumn(navController: NavController, images: List<File>, usbDrives:
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(items = images){ index, image ->
-            ComponentListItem(icon = "images.svg", title = image.name, usbDrives = usbDrives, index = index){
+            ComponentListItem(
+                icon = "images.svg",
+                title = image.name,
+                usbDrives = usbDrives,
+                index = index,
+                modifier = Modifier.onFocusChanged {
+                    if(it.isFocused){
+                        usbDrives.itemFocus = index
+                    }
+                }){
                 usbDrives.selectedItem = index
                 usbDrives.selectedItemList.value = File(usbDrives.listFileImage[index].path)
                 usbDrives.GetValueItem(menu = menuNavigation.menuIndex)

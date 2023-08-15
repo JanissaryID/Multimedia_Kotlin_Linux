@@ -21,6 +21,7 @@ class UsbDetector {
     var stateDrive : Int by mutableStateOf(0)
 
     var indexDrive : Int by mutableStateOf(0)
+    var focus : Boolean by mutableStateOf(true)
 
     fun usbDevice(it: USBStorageEvent){
         if(it.eventType == DeviceEventType.CONNECTED){

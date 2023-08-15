@@ -1,6 +1,7 @@
 package component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,12 +31,15 @@ fun NavigationMenu(menuNavigation: MenuNavigation, usbDrives: UsbDrives) {
                 contentDescription = menuNavigation.listMenuCaption[index],
                 tint = if (menuNavigation.menuFocus == index) colorBg else colorPrimary,
                 modifier = Modifier
+//                    .focusable(menuNavigation.focus)
                     .onFocusChanged {
                         if(it.isFocused){
                             menuNavigation.menuFocus = index
                         }
                     }
                     .size(if (menuNavigation.menuFocus == index) 88.dp else 68.dp).clickable {
+                    menuNavigation.focus = false
+                    usbDrives.focus = true
                     usbDrives.selectedItem = 0
                     menuNavigation.menuIndex = index
                     usbDrives.GetValueItem(menu = menuNavigation.menuIndex)

@@ -2,6 +2,7 @@ package component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -17,18 +18,18 @@ import androidx.compose.ui.unit.dp
 import classes.UsbDrives
 
 @Composable
-fun ComponentListItem(usbDrives: UsbDrives, icon: String, title: String, index:Int, onClick: () -> Unit) {
+fun ComponentListItem(usbDrives: UsbDrives, icon: String, title: String, index:Int, modifier: Modifier, onClick: () -> Unit) {
     val colorPrimary = MaterialTheme.colors.secondary
     val colorBg = MaterialTheme.colors.surface
 
-    Card(modifier = Modifier.size(width = 960.dp, height = 80.dp),
+    Card(modifier = modifier.size(width = 960.dp, height = 80.dp),
         elevation = 0.dp,
         border = BorderStroke(3.dp, color = colorPrimary),
         shape = RoundedCornerShape(20.dp),
     ) {
         Surface(modifier = Modifier
             .clickable { onClick.invoke() },
-            color = if (usbDrives.selectedItem == index) colorPrimary else colorBg
+            color = if (usbDrives.itemFocus == index) colorPrimary else colorBg
         ) {
             Row(modifier = Modifier
                 .padding(horizontal = 16.dp),
@@ -37,11 +38,11 @@ fun ComponentListItem(usbDrives: UsbDrives, icon: String, title: String, index:I
             ){
                 Icon(painter = painterResource(icon),
                     contentDescription = "Icon Item",
-                    tint = if (usbDrives.selectedItem == index) colorBg else colorPrimary,
+                    tint = if (usbDrives.itemFocus == index) colorBg else colorPrimary,
                     modifier = Modifier.size(42.dp)
                 )
                 Text(text = title,
-                    color = if (usbDrives.selectedItem == index) colorBg else colorPrimary,
+                    color = if (usbDrives.itemFocus == index) colorBg else colorPrimary,
                     fontSize = MaterialTheme.typography.h5.fontSize,
                     fontWeight = FontWeight.Bold
                 )

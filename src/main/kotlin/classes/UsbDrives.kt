@@ -47,7 +47,8 @@ class UsbDrives {
     val root = StackPane()
     val scene = Scene(root)
 
-    var menuFocus : Int by mutableStateOf(-1)
+    var itemFocus : Int by mutableStateOf(0)
+    var focus : Boolean by mutableStateOf(true)
 
     fun GetValueItem(menu: Int){
         mediaPlayer.controls().stop()
@@ -231,21 +232,20 @@ class UsbDrives {
     }
 
     private fun DataVideo(){
-        selectedDurationItem = mediaPlayer.media().info().duration()
-        println(mediaPlayer.media().info().duration())
         selectedTitleItem = getTitleFromPath(selectedItemList.value.toString())!!
         selectedFormatItem = getFileFormat(selectedItemList.value.toString())
         selectedSizeItem = getFileSize(selectedItemList.value.toString())
         selectedDateItem = getFileCreationDate(selectedItemList.value.toString())!!
+        selectedDurationItem = mediaPlayer.media().info().duration()
     }
 
     private fun DataMusic(){
-        selectedDurationItem = audioPlayer.mediaPlayer().media().info().duration()
-        println(audioPlayer.mediaPlayer().media().info().duration())
         selectedTitleItem = getTitleFromPath(selectedItemList.value.toString())!!
         selectedFormatItem = getFileFormat(selectedItemList.value.toString())
         selectedSizeItem = getFileSize(selectedItemList.value.toString())
         selectedDateItem = getFileCreationDate(selectedItemList.value.toString())!!
+        selectedDurationItem = audioPlayer.mediaPlayer().media().info().duration()
+        println(audioPlayer.mediaPlayer().media().info().duration())
     }
 
     private fun getTitleFromPath(filePath: String): String? {

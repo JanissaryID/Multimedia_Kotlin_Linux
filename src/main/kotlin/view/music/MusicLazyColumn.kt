@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import classes.MenuNavigation
 import classes.UsbDrives
@@ -20,7 +21,11 @@ fun MusicLazyColumn(navController: NavController, usbDrives: UsbDrives, music: L
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         itemsIndexed(items = music){ index, music ->
-            ComponentListItem(icon = "musics.svg", title = music.name, usbDrives = usbDrives, index = index){
+            ComponentListItem(icon = "musics.svg", title = music.name, usbDrives = usbDrives, index = index, modifier = Modifier.onFocusChanged {
+                if(it.isFocused){
+                    usbDrives.itemFocus = index
+                }
+            }){
                 usbDrives.selectedItem = index
                 usbDrives.selectedItemList.value = File(usbDrives.listFileMusic[index].path)
                 usbDrives.GetValueItem(menu = menuNavigation.menuIndex)

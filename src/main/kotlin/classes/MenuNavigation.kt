@@ -11,4 +11,5 @@ class MenuNavigation {
     var menuIndex : Int by mutableStateOf(-1)
 
     var menuFocus : Int by mutableStateOf(-1)
+    var focus : Boolean by mutableStateOf(true)
 }
