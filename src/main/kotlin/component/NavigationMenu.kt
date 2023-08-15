@@ -9,6 +9,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import classes.MenuNavigation
@@ -27,8 +28,14 @@ fun NavigationMenu(menuNavigation: MenuNavigation, usbDrives: UsbDrives) {
 
             Icon(painter = painterResource(menu),
                 contentDescription = menuNavigation.listMenuCaption[index],
-                tint = if (menuNavigation.menuIndex == index) colorBg else colorPrimary,
-                modifier = Modifier.size(if (menuNavigation.menuIndex == index) 88.dp else 68.dp).clickable {
+                tint = if (menuNavigation.menuFocus == index) colorBg else colorPrimary,
+                modifier = Modifier
+                    .onFocusChanged {
+                        if(it.isFocused){
+                            menuNavigation.menuFocus = index
+                        }
+                    }
+                    .size(if (menuNavigation.menuFocus == index) 88.dp else 68.dp).clickable {
                     usbDrives.selectedItem = 0
                     menuNavigation.menuIndex = index
                     usbDrives.GetValueItem(menu = menuNavigation.menuIndex)

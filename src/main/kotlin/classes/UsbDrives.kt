@@ -47,6 +47,8 @@ class UsbDrives {
     val root = StackPane()
     val scene = Scene(root)
 
+    var menuFocus : Int by mutableStateOf(-1)
+
     fun GetValueItem(menu: Int){
         mediaPlayer.controls().stop()
         audioPlayer.mediaPlayer().controls().stop()
