@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import classes.JFXCompose
 import classes.MenuNavigation
 import classes.UsbDetector
 import classes.UsbDrives
@@ -16,10 +15,6 @@ import component.ComponentImageView
 import component.ComponentMusicView
 import component.ComponentVideoView
 import navcontroller.NavController
-import view.image.ImageLoadData
-import view.music.MusicLoadData
-import view.video.VideoLoadData
-import java.io.File
 
 @Composable
 fun RightPage(

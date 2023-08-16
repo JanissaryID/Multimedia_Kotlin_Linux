@@ -13,8 +13,8 @@ enum class Screen(
         label = "Home",
         icon = Icons.Filled.Home
     ),
-    ScreenDrive(
-        label = "Drive",
+    ScreenVideo(
+        label = "Video",
         icon = Icons.Filled.Notifications
     ),
 }

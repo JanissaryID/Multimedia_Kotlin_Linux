@@ -1,4 +1,4 @@
-package component
+package component.jfx
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -9,8 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.round
-import classes.JFXCompose
-import classes.JFXVideo
+import classes.jfx_class.JFXVideo
 import classes.UsbDrives
 
 @Composable

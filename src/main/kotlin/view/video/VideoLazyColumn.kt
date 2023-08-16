@@ -13,6 +13,7 @@ import classes.MenuNavigation
 import classes.UsbDrives
 import component.ComponentListItem
 import navcontroller.NavController
+import navcontroller.Screen
 import java.io.File
 
 @Composable
@@ -27,10 +28,12 @@ fun VideoLazyColumn(navController: NavController, videos: List<File>, usbDrives:
                     usbDrives.itemFocus = index
                 }
             }){
+                navController.navigate(Screen.ScreenVideo.name)
                 usbDrives.selectedItem = index
                 usbDrives.selectedItemList.value = File(usbDrives.listFileVideos[index].path)
                 usbDrives.GetValueItem(menu = menuNavigation.menuIndex)
                 println(usbDrives.selectedItemList.value)
+                usbDrives.StopVideo()
             }
         }
     }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import media_player.rememberVideoPlayerState
 import model.FileDrive
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent
@@ -49,6 +50,7 @@ class UsbDrives {
 
     var itemFocus : Int by mutableStateOf(0)
     var focus : Boolean by mutableStateOf(true)
+    var fullScreen : Boolean by mutableStateOf(false)
 
     fun GetValueItem(menu: Int){
         mediaPlayer.controls().stop()
@@ -68,6 +70,10 @@ class UsbDrives {
                 ColectDataInformation(menu = menu)
             }
         }
+    }
+
+    fun StopVideo(){
+        mediaPlayer.controls().stop()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -236,7 +242,7 @@ class UsbDrives {
         selectedFormatItem = getFileFormat(selectedItemList.value.toString())
         selectedSizeItem = getFileSize(selectedItemList.value.toString())
         selectedDateItem = getFileCreationDate(selectedItemList.value.toString())!!
-        selectedDurationItem = mediaPlayer.media().info().duration()
+        selectedDurationItem = if(mediaPlayer.media().info() != null) mediaPlayer.media().info().duration() else 0L
     }
 
     private fun DataMusic(){

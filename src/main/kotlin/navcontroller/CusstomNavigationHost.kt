@@ -7,6 +7,7 @@ import classes.UsbDetector
 import classes.UsbDrives
 import model.UsbDrive
 import screen.ScreenHome
+import screen.ScreenVideo
 import java.io.File
 
 @Composable
@@ -31,10 +32,11 @@ fun CustomNavigationHost(
             }
         }
 
-        composable(Screen.ScreenDrive.name) {
-//            classDrive.FileInDrive()
-////            classDrive.ShowFile()
-//            ScreenDrive(usbDetector, navController, classDrive)
+        composable(Screen.ScreenVideo.name) {
+            ScreenVideo(
+                usbDrives = usbDrives,
+                video = usbDrives.selectedItemList.value
+            )
         }
 
     }.build()
