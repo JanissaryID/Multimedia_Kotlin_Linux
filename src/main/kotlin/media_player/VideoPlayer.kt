@@ -37,6 +37,8 @@ fun VideoPlayer(
     var imageBitmap by remember(mrl) { mutableStateOf<ImageBitmap?>(null) }
     var mediaPlayerRead by remember(mrl) { mutableStateOf(false) }
 
+    val factory = MediaPlayerFactory()
+
     if(mediaPlayerRead) {
         imageBitmap?.let {
             androidx.compose.foundation.Image(
@@ -56,8 +58,6 @@ fun VideoPlayer(
     val mediaPlayer = remember(mrl) {
         var byteArray :ByteArray? = null
         var info: ImageInfo? = null
-
-        val factory = MediaPlayerFactory()
 
         val embeddedMediaPlayer = factory.mediaPlayers().newEmbeddedMediaPlayer()
         val callbackVideoSurface = CallbackVideoSurface(
@@ -107,21 +107,18 @@ fun VideoPlayer(
 
     LaunchedEffect(key1 = mrl) {
         println("Launched effect")
-        mediaPlayer.audio().mute()
-        mediaPlayer.controls().stop()
+//        println("Is mute? ${mediaPlayer.audio().isMute}")
+        mediaPlayer.media().start(mrl)
 
-        if(viewThumbnail){
-            mediaPlayer.media().play(mrl, ":start-time=100")
-        }
-        else{
-            mediaPlayer.media().play(mrl)
-        }
-
+//
         mediaPlayer.events().addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
 
             override fun timeChanged(mediaPlayer: MediaPlayer?, newTime: Long) {
                 super.timeChanged(mediaPlayer, newTime)
-                println("timeChanged $newTime")
+//                println("timeChanged $newTime -- Muted? (${mediaPlayer!!.audio().isMute})")
+                if(mediaPlayer!!.audio().isMute){
+                    mediaPlayer.audio().mute()
+                }
             }
 
             override fun mediaPlayerReady(mediaPlayer: MediaPlayer) {
@@ -130,8 +127,7 @@ fun VideoPlayer(
                 println("mediaPlayerReady ${mediaPlayer.video().videoDimension().width} ${mediaPlayer.video().videoDimension().height}")
 
                 mediaPlayer.submit {
-                    mediaPlayer.audio().mute()
-                    mediaPlayer.controls().pause()
+//                    mediaPlayer.audio().mute()
                     coroutineScope.launch {
                         delay(100)
                         mediaPlayerRead = true
@@ -145,7 +141,10 @@ fun VideoPlayer(
 
     DisposableEffect(key1 = mrl, effect = {
         this.onDispose {
+//            mediaPlayer.controls().stop()
             mediaPlayer.release()
+            factory.release()
+            println("mediaPlayer Dispose")
         }
     })
 }

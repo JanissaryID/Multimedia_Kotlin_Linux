@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
-    id("org.openjfx.javafxplugin") version "0.0.14"
+//    id("org.openjfx.javafxplugin") version "0.0.14"
 }
 
 group = "com.example"
@@ -15,10 +15,10 @@ repositories {
     google()
 }
 
-javafx {
-    version = "20"
-    modules("javafx.controls", "javafx.fxml", "javafx.media", "javafx.swing", "javafx.graphics")
-}
+//javafx {
+//    version = "20"
+//    modules("javafx.controls", "javafx.fxml", "javafx.media", "javafx.swing", "javafx.graphics")
+//}
 
 dependencies {
     // Note, if you develop a library, you should use compose.desktop.common.

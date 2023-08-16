@@ -35,7 +35,8 @@ fun CustomNavigationHost(
         composable(Screen.ScreenVideo.name) {
             ScreenVideo(
                 usbDrives = usbDrives,
-                video = usbDrives.selectedItemList.value
+                video = usbDrives.selectedItemList.value,
+                navController = navController
             )
         }
 

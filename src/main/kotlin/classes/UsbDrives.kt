@@ -1,10 +1,6 @@
 package classes
 
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import javafx.embed.swing.JFXPanel
-import javafx.scene.Scene
-import javafx.scene.layout.StackPane
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -40,13 +36,9 @@ class UsbDrives {
     var selectedDateItem : String by mutableStateOf("")
     var selectedDurationItem : Long by mutableStateOf(0L)
 
-    var jfxPanel: JFXPanel = JFXPanel()
     val factory = MediaPlayerFactory("--no-video-title-show")
     val mediaPlayer: EmbeddedMediaPlayer = factory.mediaPlayers().newEmbeddedMediaPlayer()
     val audioPlayer: AudioPlayerComponent = AudioPlayerComponent()
-
-    val root = StackPane()
-    val scene = Scene(root)
 
     var itemFocus : Int by mutableStateOf(0)
     var focus : Boolean by mutableStateOf(true)
@@ -70,10 +62,6 @@ class UsbDrives {
                 ColectDataInformation(menu = menu)
             }
         }
-    }
-
-    fun StopVideo(){
-        mediaPlayer.controls().stop()
     }
 
     @OptIn(DelicateCoroutinesApi::class)

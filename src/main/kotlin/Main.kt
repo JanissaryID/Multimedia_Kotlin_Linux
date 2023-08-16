@@ -8,8 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.window.*
 import classes.MenuNavigation
 import classes.UsbDetector
 import classes.UsbDrives
@@ -34,7 +34,16 @@ fun App() {
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    val stateControllerFull = rememberWindowState(
+        placement = WindowPlacement.Maximized,
+        position = WindowPosition(Alignment.Center)
+    )
+
+    Window(
+        onCloseRequest = ::exitApplication,
+        resizable = true,
+        state = stateControllerFull
+    ) {
         App()
     }
 }

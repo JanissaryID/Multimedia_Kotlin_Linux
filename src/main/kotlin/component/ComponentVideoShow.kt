@@ -19,14 +19,15 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import media_player.OnTimeChangedListener
 import media_player.VideoPlayer
+import media_player.VideoPlayerState
 import media_player.rememberVideoPlayerState
 import java.io.File
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun ComponentVideoShow(video: File?, usbDrives: UsbDrives) {
+fun ComponentVideoShow(video: File?, usbDrives: UsbDrives, videoPlayerState: VideoPlayerState) {
 
-    val videoPlayerState = rememberVideoPlayerState()
+
 
     val videoFile = usbDrives.selectedItemList.value.toString()
 
@@ -43,17 +44,13 @@ fun ComponentVideoShow(video: File?, usbDrives: UsbDrives) {
                 )
 
                 LaunchedEffect(videoFile) {
-                    GlobalScope.launch(Dispatchers.IO){
-                        videoPlayerState.doWithMediaPlayer { mediaPlayer ->
-                            mediaPlayer.addOnTimeChangedListener(
-                                object : OnTimeChangedListener {
-                                    override fun onTimeChanged(timeMillis: Long) {
-                                    }
+                    videoPlayerState.doWithMediaPlayer { mediaPlayer ->
+                        mediaPlayer.addOnTimeChangedListener(
+                            object : OnTimeChangedListener {
+                                override fun onTimeChanged(timeMillis: Long) {
                                 }
-                            )
-                        }
-                        videoPlayerState.doWithMediaPlayer { mediaPlayer -> mediaPlayer.pause() }
-                        Thread.currentThread().join()
+                            }
+                        )
                     }
                 }
             }

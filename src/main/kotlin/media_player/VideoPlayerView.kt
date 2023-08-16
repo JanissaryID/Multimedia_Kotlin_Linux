@@ -36,6 +36,7 @@ fun VideoPlayerView(
     var imageBitmap by remember(mrl) { mutableStateOf<ImageBitmap?>(null) }
     var mediaPlayerRead by remember(mrl) { mutableStateOf(false) }
 
+    val factory = MediaPlayerFactory("--no-audio")
 
     if(mediaPlayerRead) {
         imageBitmap?.let {
@@ -57,7 +58,7 @@ fun VideoPlayerView(
         var byteArray :ByteArray? = null
         var info: ImageInfo? = null
 
-        val factory = MediaPlayerFactory("--no-audio")
+
 
         val embeddedMediaPlayer = factory.mediaPlayers().newEmbeddedMediaPlayer()
         val callbackVideoSurface = CallbackVideoSurface(
@@ -106,7 +107,7 @@ fun VideoPlayerView(
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = mrl) {
-        println("Launched effect")
+        println("Launched effect Thumbnail")
 
         if(viewThumbnail){
             mediaPlayer.media().play(mrl, ":start-time=100")
@@ -143,6 +144,8 @@ fun VideoPlayerView(
     DisposableEffect(key1 = mrl, effect = {
         this.onDispose {
             mediaPlayer.release()
+            factory.release()
+            println("mediaPlayer Thumbnail Dispose")
         }
     })
 }

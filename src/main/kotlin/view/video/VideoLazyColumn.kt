@@ -30,7 +30,6 @@ fun VideoLazyColumn(navController: NavController, videos: List<File>, usbDrives:
                     usbDrives.selectedItemList.value = File(usbDrives.listFileVideos[index].path)
                     usbDrives.GetValueItem(menu = menuNavigation.menuIndex)
                     println(usbDrives.selectedItemList.value)
-                    usbDrives.StopVideo()
                 }
             }){
                 navController.navigate(Screen.ScreenVideo.name)
@@ -38,7 +37,8 @@ fun VideoLazyColumn(navController: NavController, videos: List<File>, usbDrives:
                 usbDrives.selectedItemList.value = File(usbDrives.listFileVideos[index].path)
                 usbDrives.GetValueItem(menu = menuNavigation.menuIndex)
                 println(usbDrives.selectedItemList.value)
-                usbDrives.StopVideo()
+
+                usbDrives.statItem = 0
             }
         }
     }
