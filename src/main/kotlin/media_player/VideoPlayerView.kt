@@ -27,15 +27,15 @@ import java.nio.ByteBuffer
 
 
 @Composable
-fun VideoPlayer(
+fun VideoPlayerView(
     mrl: String,
     viewThumbnail: Boolean = false,
     state: VideoPlayerState,
     modifier: Modifier,
 ) {
-
     var imageBitmap by remember(mrl) { mutableStateOf<ImageBitmap?>(null) }
     var mediaPlayerRead by remember(mrl) { mutableStateOf(false) }
+
 
     if(mediaPlayerRead) {
         imageBitmap?.let {
@@ -43,7 +43,7 @@ fun VideoPlayer(
                 bitmap = it,
                 contentDescription = "Video",
                 modifier = modifier,
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Inside
 
             )
         } ?: run {
@@ -57,7 +57,7 @@ fun VideoPlayer(
         var byteArray :ByteArray? = null
         var info: ImageInfo? = null
 
-        val factory = MediaPlayerFactory()
+        val factory = MediaPlayerFactory("--no-audio")
 
         val embeddedMediaPlayer = factory.mediaPlayers().newEmbeddedMediaPlayer()
         val callbackVideoSurface = CallbackVideoSurface(
@@ -107,8 +107,6 @@ fun VideoPlayer(
 
     LaunchedEffect(key1 = mrl) {
         println("Launched effect")
-        mediaPlayer.audio().mute()
-        mediaPlayer.controls().stop()
 
         if(viewThumbnail){
             mediaPlayer.media().play(mrl, ":start-time=100")
@@ -130,7 +128,6 @@ fun VideoPlayer(
                 println("mediaPlayerReady ${mediaPlayer.video().videoDimension().width} ${mediaPlayer.video().videoDimension().height}")
 
                 mediaPlayer.submit {
-                    mediaPlayer.audio().mute()
                     mediaPlayer.controls().pause()
                     coroutineScope.launch {
                         delay(100)

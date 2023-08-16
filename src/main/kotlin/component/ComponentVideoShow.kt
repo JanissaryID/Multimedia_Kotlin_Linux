@@ -4,26 +4,25 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import classes.UsbDrives
-import component.jfx.JFXPanelVideoShow
-import javafx.scene.text.Text
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import media_player.OnTimeChangedListener
 import media_player.VideoPlayer
 import media_player.rememberVideoPlayerState
-import page.BottomPageVideo
 import java.io.File
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun ComponentVideoShow(video: File?, usbDrives: UsbDrives) {
 
@@ -34,9 +33,8 @@ fun ComponentVideoShow(video: File?, usbDrives: UsbDrives) {
     Surface(modifier = Modifier.fillMaxSize()
         .background(Color.Transparent),
     ) {
-        Box(modifier = Modifier.fillMaxSize()){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
             if(video!!.exists()){
-//                JFXPanelVideoShow(usbDrives = usbDrives)
 
                 VideoPlayer(
                     mrl = videoFile,
@@ -45,13 +43,17 @@ fun ComponentVideoShow(video: File?, usbDrives: UsbDrives) {
                 )
 
                 LaunchedEffect(videoFile) {
-                    videoPlayerState.doWithMediaPlayer { mediaPlayer ->
-                        mediaPlayer.addOnTimeChangedListener(
-                            object : OnTimeChangedListener {
-                                override fun onTimeChanged(timeMillis: Long) {
+                    GlobalScope.launch(Dispatchers.IO){
+                        videoPlayerState.doWithMediaPlayer { mediaPlayer ->
+                            mediaPlayer.addOnTimeChangedListener(
+                                object : OnTimeChangedListener {
+                                    override fun onTimeChanged(timeMillis: Long) {
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
+                        videoPlayerState.doWithMediaPlayer { mediaPlayer -> mediaPlayer.pause() }
+                        Thread.currentThread().join()
                     }
                 }
             }

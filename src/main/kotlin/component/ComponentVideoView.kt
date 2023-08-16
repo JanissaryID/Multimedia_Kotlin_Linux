@@ -8,18 +8,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import classes.UsbDrives
-import component.jfx.JFXPanelVideo
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import media_player.OnTimeChangedListener
 import media_player.VideoPlayer
+import media_player.VideoPlayerView
 import media_player.rememberVideoPlayerState
 import java.io.File
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun ComponentVideoView(video: File?, usbDrives: UsbDrives) {
     val videoPlayerState = rememberVideoPlayerState()
@@ -30,23 +36,18 @@ fun ComponentVideoView(video: File?, usbDrives: UsbDrives) {
         .background(Color.Transparent),
         shape = RoundedCornerShape(14.dp)
     ) {
-        Box(modifier = Modifier.fillMaxSize()){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
             if(video!!.exists()){
-//                JFXPanelVideo(usbDrives = usbDrives)
-                VideoPlayer(
+                VideoPlayerView(
                     mrl = videoFile,
                     state = videoPlayerState,
-                    modifier = Modifier
+                    modifier = Modifier,
+                    viewThumbnail = true
                 )
 
                 LaunchedEffect(videoFile) {
-                    videoPlayerState.doWithMediaPlayer { mediaPlayer ->
-                        mediaPlayer.addOnTimeChangedListener(
-                            object : OnTimeChangedListener {
-                                override fun onTimeChanged(timeMillis: Long) {
-                                }
-                            }
-                        )
+                    GlobalScope.launch(Dispatchers.IO){
+                        Thread.currentThread().join()
                     }
                 }
             }

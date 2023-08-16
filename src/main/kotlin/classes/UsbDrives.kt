@@ -210,7 +210,6 @@ class UsbDrives {
                 DataImage()
             }
             1 -> {
-                ShowVideo()
                 DataVideo()
             }
             2 -> {
@@ -218,10 +217,6 @@ class UsbDrives {
                 DataMusic()
             }
         }
-    }
-
-    private fun ShowVideo(){
-        jfxPanel.scene = scene
     }
 
     private fun PlayMusic(){
@@ -242,7 +237,7 @@ class UsbDrives {
         selectedFormatItem = getFileFormat(selectedItemList.value.toString())
         selectedSizeItem = getFileSize(selectedItemList.value.toString())
         selectedDateItem = getFileCreationDate(selectedItemList.value.toString())!!
-        selectedDurationItem = if(mediaPlayer.media().info() != null) mediaPlayer.media().info().duration() else 0L
+//        selectedDurationItem = if(mediaPlayer.media().info() != null) mediaPlayer.media().info().duration() else 0L
     }
 
     private fun DataMusic(){

@@ -26,6 +26,11 @@ fun VideoLazyColumn(navController: NavController, videos: List<File>, usbDrives:
             ComponentListItem(icon = "videos.svg", title = video.name, usbDrives = usbDrives, index = index, modifier = Modifier.onFocusChanged {
                 if(it.isFocused){
                     usbDrives.itemFocus = index
+                    usbDrives.selectedItem = index
+                    usbDrives.selectedItemList.value = File(usbDrives.listFileVideos[index].path)
+                    usbDrives.GetValueItem(menu = menuNavigation.menuIndex)
+                    println(usbDrives.selectedItemList.value)
+                    usbDrives.StopVideo()
                 }
             }){
                 navController.navigate(Screen.ScreenVideo.name)

@@ -32,12 +32,13 @@ fun ImageLazyColumn(navController: NavController, images: List<File>, usbDrives:
                 modifier = Modifier.onFocusChanged {
                     if(it.isFocused){
                         usbDrives.itemFocus = index
+                        usbDrives.selectedItem = index
+                        usbDrives.selectedItemList.value = File(usbDrives.listFileImage[index].path)
+                        usbDrives.GetValueItem(menu = menuNavigation.menuIndex)
+                        println(usbDrives.selectedItemList.value)
                     }
                 }){
-                usbDrives.selectedItem = index
-                usbDrives.selectedItemList.value = File(usbDrives.listFileImage[index].path)
-                usbDrives.GetValueItem(menu = menuNavigation.menuIndex)
-                println(usbDrives.selectedItemList.value)
+
             }
         }
     }

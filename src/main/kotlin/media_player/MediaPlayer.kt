@@ -1,8 +1,9 @@
 package media_player
 
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
+import uk.co.caprica.vlcj.player.base.MediaPlayer
 
-class MediaPlayer(private val mediaPlayer: uk.co.caprica.vlcj.player.base.MediaPlayer) {
+class MediaPlayer(private val mediaPlayer: MediaPlayer) {
     fun play() {
         mediaPlayer.controls().play()
     }
@@ -33,7 +34,7 @@ class MediaPlayer(private val mediaPlayer: uk.co.caprica.vlcj.player.base.MediaP
 
     fun addOnTimeChangedListener(listener: OnTimeChangedListener) {
         mediaPlayer.events().addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
-            override fun timeChanged(mediaPlayer: uk.co.caprica.vlcj.player.base.MediaPlayer?, newTime: Long) {
+            override fun timeChanged(mediaPlayer: MediaPlayer?, newTime: Long) {
                 super.timeChanged(mediaPlayer, newTime)
                 listener.onTimeChanged(newTime)
             }
